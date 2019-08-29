@@ -10,14 +10,13 @@ class Signin extends React.Component {
   }
 
   onEmailChange = (event) => {
-    console.log(event.target.value);
     this.setState({signInEmail: event.target.value});
   }
   onPasswordChange = (event) => {
     this.setState({signInPassword: event.target.value});
   }
   onSubmitSignIn = () => {
-    fetch('http://localhost:3000/signin/', {
+    fetch('https://serene-oasis-80711.herokuapp.com/signin/', {
       method: 'POST',
       mode: 'cors',
       headers: {'Content-Type': 'application/json'},

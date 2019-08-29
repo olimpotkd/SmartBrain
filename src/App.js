@@ -5,14 +5,12 @@ import Navigation from './components/Navigation/Navigation';
 import Logo from './components/Logo/Logo';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
-import Clarifai from 'clarifai';
+
 import './App.css';
 import Particles from 'react-particles-js';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 
-const app = new Clarifai.App({
-  apiKey: '919f51430f744f08963bb175cd5a8942'
- });
+
 
 const particlesOptions = {
   particles: {
@@ -83,11 +81,18 @@ class App extends React.Component {
 
   onButtonSubmit = () => {
     this.setState({imageUrl: this.state.input});
-    app.models
-      .predict('a403429f2ddf4b49b307e318f00e528b', this.state.input)
-      .then(response => {
+
+    fetch('https://serene-oasis-80711.herokuapp.com/imageUrl', {
+            method: 'POST',
+            mode: 'cors',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              input: this.state.input
+            })})
+    .then(response => response.json())
+    .then(response => {
         if (response) {
-          fetch('http://localhost:3000/image', {
+          fetch('https://serene-oasis-80711.herokuapp.com/image', {
             method: 'PUT',
             mode: 'cors',
             headers: {'Content-Type': 'application/json'},
@@ -102,7 +107,7 @@ class App extends React.Component {
         }
         this.displayFaceBox(this.calculateFaceLocation(response));
       })
-      .catch(err => console.log(err));
+      .catch(err => console.log(err))
   }
   
   onRouteChange = (route) => {

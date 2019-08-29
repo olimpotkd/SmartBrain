@@ -11,7 +11,6 @@ class Register extends React.Component {
   }
   
   onEmailChange = (event) => {
-    console.log(event.target.value);
     this.setState({email: event.target.value});
   }
   
@@ -24,7 +23,7 @@ class Register extends React.Component {
   }
   
   onSubmitRegister = () => {
-    fetch('http://localhost:3000/register/', {
+    fetch('https://serene-oasis-80711.herokuapp.com/register/', {
       method: 'POST',
       mode: 'cors',
       headers: {'Content-Type': 'application/json'},
