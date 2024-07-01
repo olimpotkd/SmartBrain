@@ -1,0 +1,4 @@
+-Add catch after every then, in all fetch
+-Console.log error, and/or, log them
+-Make the Register, and SignIn components share a component, to improve DRY
+-Make a container component for the App.js, App.css, and App.test.js
