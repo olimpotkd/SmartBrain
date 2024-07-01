@@ -1,4 +1,9 @@
-const Navigation = ({ onRouteChange, isSignedIn }) => {
+interface Props {
+  onRouteChange: (route: string) => void;
+  isSignedIn: boolean;
+}
+
+const Navigation = ({ onRouteChange, isSignedIn }: Props) => {
   if (isSignedIn) {
     return (
       <nav style={{ display: "flex", justifyContent: "flex-end" }}>

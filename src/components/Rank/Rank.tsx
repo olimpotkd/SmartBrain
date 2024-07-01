@@ -1,4 +1,8 @@
-const Rank = ({ name, entries }) => {
+interface Props {
+  name: string;
+  entries: number;
+}
+const Rank = ({ name, entries }: Props) => {
   return (
     <div>
       <div className="white f3">{`${name}, your current rank is...`}</div>

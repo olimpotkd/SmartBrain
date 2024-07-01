@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Signin from "./components/Signin/Signin";
 import Register from "./components/Register/Register";
 import Navigation from "./components/Navigation/Navigation";
 import Logo from "./components/Logo/Logo";
 import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
 import Rank from "./components/Rank/Rank";
-
-import "./App.css";
-// import Particles from "react-particles-js";
 import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
+import "./App.css";
+
+import Particles, { initParticlesEngine } from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim";
 
 // const particlesOptions = {
 //   particles: {
@@ -23,6 +24,16 @@ import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
 // };
 
 const App = () => {
+  const [init, setInit] = useState(false);
+
+  useEffect(() => {
+    initParticlesEngine(async (engine) => {
+      await loadSlim(engine);
+    }).then(() => {
+      setInit(true);
+    });
+  }, []);
+
   const [user, setUser] = useState({
     id: "",
     name: "",
@@ -30,7 +41,7 @@ const App = () => {
     entries: 0,
     joined: "",
   });
-  const [box, setBox] = useState(null);
+  const [box, setBox] = useState<Box[] | null>(null);
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [route, setRoute] = useState("signin");
@@ -51,7 +62,7 @@ const App = () => {
     setInput("");
   };
 
-  const loadUser = (data) => {
+  const loadUser = (data: User) => {
     setUser({
       id: data.id,
       name: data.name,
@@ -61,14 +72,14 @@ const App = () => {
     });
   };
 
-  const calculateFaceLocation = (data) => {
-    const clarifaiFace = data.outputs[0].data.regions;
-    const image = document.getElementById("inputimage");
+  const calculateFaceLocation = (data: any) => {
+    const clarifaiFace = data[0].data.regionList;
+    const image = document.getElementById("inputimage") as HTMLImageElement;
     const width = Number(image.width);
     const height = Number(image.height);
-    return clarifaiFace.map((region) => {
+    return clarifaiFace.map((region: any) => {
       const { left_col, top_row, right_col, bottom_row } =
-        region.region_info.bounding_box;
+        region.regionInfo.boundingBox;
 
       return {
         leftCol: left_col * width,
@@ -98,7 +109,7 @@ const App = () => {
             mode: "cors",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              id: this.state.user.id,
+              id: user.id,
             }),
           })
             .then((response) => response.json())
@@ -111,7 +122,7 @@ const App = () => {
       .catch((err) => console.log(err));
   };
 
-  const onRouteChange = (route) => {
+  const onRouteChange = (route: string) => {
     if (route === "signout") {
       resetState();
       route = "signin";
@@ -123,7 +134,6 @@ const App = () => {
 
   return (
     <div className="App">
-      {/* TODO Carlos - fin in TS */}
       {/* <Particles className="particles" params={particlesOptions} /> */}
       <Navigation onRouteChange={onRouteChange} isSignedIn={isSignedIn} />
       {route === "home" ? (

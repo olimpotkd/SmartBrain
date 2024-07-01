@@ -1,6 +1,11 @@
 import "./FaceRecognition.css";
 
-const FaceRecognition = ({ imageUrl, box }) => {
+interface Props {
+  imageUrl: string;
+  box: Array<Box> | null;
+}
+
+const FaceRecognition = ({ imageUrl, box }: Props) => {
   return (
     <div className="center ma">
       <div className="absolute mt2">
@@ -11,7 +16,7 @@ const FaceRecognition = ({ imageUrl, box }) => {
           width="500px"
           height="auto"
         />
-        {box.map((boxx, index) => (
+        {box?.map((boxx, index) => (
           <div
             key={index}
             className="bounding-box"
