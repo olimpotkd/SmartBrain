@@ -1,17 +1,24 @@
 import { useState } from "react";
 
-const Signin = ({ onRouteChange, loadUser }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+interface Props {
+  loadUser: (user: any) => void;
+  onRouteChange: (route: string) => void;
+}
 
-  const onSubmitSignIn = () => {
-    fetch("https://serene-oasis-80711.herokuapp.com/signin/", {
+const Register = ({ loadUser, onRouteChange }: Props) => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [name, setName] = useState<string>("");
+
+  const onSubmitRegister = () => {
+    fetch("https://serene-oasis-80711.herokuapp.com/register/", {
       method: "POST",
       mode: "cors",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         email,
         password,
+        name,
       }),
     })
       .then((response) => response.json())
@@ -28,17 +35,29 @@ const Signin = ({ onRouteChange, loadUser }) => {
       <main className="pa4 black-80">
         <div className="measure">
           <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
-            <legend className="f1 fw6 ph0 mh0">Sign In</legend>
+            <legend className="f1 fw6 ph0 mh0">Register</legend>
+            <div className="mt3">
+              <label className="db fw6 lh-copy f6" htmlFor="name">
+                Name
+              </label>
+              <input
+                className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                type="text"
+                name="name"
+                id="name"
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
             <div className="mt3">
               <label className="db fw6 lh-copy f6" htmlFor="email-address">
                 Email
               </label>
               <input
-                onChange={setEmail}
                 className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
                 type="email"
                 name="email-address"
                 id="email-address"
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className="mv3">
@@ -46,30 +65,21 @@ const Signin = ({ onRouteChange, loadUser }) => {
                 Password
               </label>
               <input
-                onChange={setPassword}
                 className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
                 type="password"
                 name="password"
                 id="password"
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
           </fieldset>
           <div className="">
             <input
-              onClick={onSubmitSignIn}
+              onClick={() => onSubmitRegister()}
               className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
               type="submit"
-              value="Sign in"
+              value="Register"
             />
-          </div>
-          <div className="lh-copy mt3">
-            <p
-              href="#0"
-              className="f6 link dim black db pointer"
-              onClick={() => onRouteChange("register")}
-            >
-              Register
-            </p>
           </div>
         </div>
       </main>
@@ -77,4 +87,4 @@ const Signin = ({ onRouteChange, loadUser }) => {
   );
 };
 
-export default Signin;
+export default Register;

@@ -1,6 +1,11 @@
 import "./ImageLinkForm.css";
 
-const ImageLinkForm = ({ onInputChange, onButtonSubmit }) => {
+interface Props {
+  onInputChange: (value: string) => void;
+  onButtonSubmit: () => void;
+}
+
+const ImageLinkForm = ({ onInputChange, onButtonSubmit }: Props) => {
   return (
     <div>
       <p className="f3 ">
@@ -11,7 +16,7 @@ const ImageLinkForm = ({ onInputChange, onButtonSubmit }) => {
           <input
             className="f4 pa2 w-70 center"
             type="text"
-            onChange={onInputChange}
+            onChange={(e) => onInputChange(e.target.value)}
           />
           <button
             className="w-30 grow f4 link ph3 pv2 dib white bg-light-purple"
