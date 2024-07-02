@@ -7,28 +7,16 @@ import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
 import Rank from "./components/Rank/Rank";
 import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
 import "./App.css";
-
 import Particles, { initParticlesEngine } from "@tsparticles/react";
-import { loadSlim } from "@tsparticles/slim";
-
-// const particlesOptions = {
-//   particles: {
-//     number: {
-//       value: 100,
-//       density: {
-//         enable: true,
-//         value_area: 800,
-//       },
-//     },
-//   },
-// };
+import type { ISourceOptions } from "@tsparticles/engine";
+import { loadAll } from "@tsparticles/all";
 
 const App = () => {
   const [init, setInit] = useState(false);
 
   useEffect(() => {
     initParticlesEngine(async (engine) => {
-      await loadSlim(engine);
+      await loadAll(engine);
     }).then(() => {
       setInit(true);
     });
@@ -46,6 +34,57 @@ const App = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [route, setRoute] = useState("signin");
   const [input, setInput] = useState("");
+
+  const particlesOptions: ISourceOptions = {
+    particles: {
+      number: {
+        density: {
+          enable: true,
+        },
+        value: 120,
+      },
+      color: {
+        value: "#322c9e",
+      },
+      links: {
+        enable: true,
+        color: "random",
+        distance: 100,
+        opacity: 1,
+        frequency: 2,
+        width: 1,
+      },
+      shape: {
+        type: "circle",
+      },
+      opacity: {
+        animation: {
+          enable: true,
+          speed: 0.5,
+          startValue: "random",
+        },
+        value: 1,
+      },
+      size: {
+        value: {
+          min: 1,
+          max: 3,
+        },
+        animation: {
+          enable: true,
+          speed: 3,
+          startValue: "random",
+        },
+      },
+      move: {
+        enable: true,
+        speed: 1,
+      },
+    },
+    poisson: {
+      enable: true,
+    },
+  };
 
   const resetState = () => {
     setUser({
@@ -134,7 +173,7 @@ const App = () => {
 
   return (
     <div className="App">
-      {/* <Particles className="particles" params={particlesOptions} /> */}
+      {init && <Particles className="particles" options={particlesOptions} />}
       <Navigation onRouteChange={onRouteChange} isSignedIn={isSignedIn} />
       {route === "home" ? (
         <div>
