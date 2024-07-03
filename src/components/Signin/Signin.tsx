@@ -10,7 +10,7 @@ const Signin = ({ onRouteChange, loadUser }: Props) => {
   const [password, setPassword] = useState<string>("");
 
   const onSubmitSignIn = () => {
-    fetch("localhost:5008/signin/", {
+    fetch("http://ec2-35-173-242-114.compute-1.amazonaws.com:5008/signin/", {
       method: "POST",
       mode: "cors",
       headers: { "Content-Type": "application/json" },

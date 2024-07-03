@@ -11,7 +11,7 @@ const Register = ({ loadUser, onRouteChange }: Props) => {
   const [name, setName] = useState<string>("");
 
   const onSubmitRegister = () => {
-    fetch("localhost:5008/register/", {
+    fetch("http://ec2-35-173-242-114.compute-1.amazonaws.com:5008/register/", {
       method: "POST",
       mode: "cors",
       headers: { "Content-Type": "application/json" },

@@ -112,19 +112,19 @@ const App = () => {
   };
 
   const calculateFaceLocation = (data: any) => {
-    const clarifaiFace = data[0].data.regionList;
+    const clarifaiFace = data.data.regionsList;
     const image = document.getElementById("inputimage") as HTMLImageElement;
     const width = Number(image.width);
     const height = Number(image.height);
     return clarifaiFace.map((region: any) => {
-      const { left_col, top_row, right_col, bottom_row } =
+      const { leftCol, topRow, rightCol, bottomRow } =
         region.regionInfo.boundingBox;
 
       return {
-        leftCol: left_col * width,
-        topRow: top_row * height,
-        rightCol: width - right_col * width,
-        bottomRow: height - bottom_row * height,
+        leftCol: leftCol * width,
+        topRow: topRow * height,
+        rightCol: width - rightCol * width,
+        bottomRow: height - bottomRow * height,
       };
     });
   };
@@ -132,7 +132,7 @@ const App = () => {
   const onButtonSubmit = () => {
     setImageUrl(input);
 
-    fetch("https://serene-oasis-80711.herokuapp.com/imageUrl", {
+    fetch("http://ec2-35-173-242-114.compute-1.amazonaws.com:5008/imageUrl", {
       method: "POST",
       mode: "cors",
       headers: { "Content-Type": "application/json" },
@@ -142,15 +142,19 @@ const App = () => {
     })
       .then((response) => response.json())
       .then((response) => {
+        console.log(response);
         if (response.status.description === "Ok") {
-          fetch("https://serene-oasis-80711.herokuapp.com/image", {
-            method: "PUT",
-            mode: "cors",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              id: user.id,
-            }),
-          })
+          fetch(
+            "http://ec2-35-173-242-114.compute-1.amazonaws.com:5008/image",
+            {
+              method: "PUT",
+              mode: "cors",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                id: user.id,
+              }),
+            }
+          )
             .then((response) => response.json())
             .then((count) => {
               setUser({ ...user, entries: count });
