@@ -11,7 +11,7 @@ const Register = ({ loadUser, onRouteChange }: Props) => {
   const [name, setName] = useState<string>("");
 
   const onSubmitRegister = () => {
-    fetch("https://serene-oasis-80711.herokuapp.com/register/", {
+    fetch("localhost:5008/register/", {
       method: "POST",
       mode: "cors",
       headers: { "Content-Type": "application/json" },

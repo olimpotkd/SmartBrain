@@ -10,7 +10,7 @@ const Signin = ({ onRouteChange, loadUser }: Props) => {
   const [password, setPassword] = useState<string>("");
 
   const onSubmitSignIn = () => {
-    fetch("https://serene-oasis-80711.herokuapp.com/signin/", {
+    fetch("localhost:5008/signin/", {
       method: "POST",
       mode: "cors",
       headers: { "Content-Type": "application/json" },
