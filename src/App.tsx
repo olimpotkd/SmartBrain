@@ -44,7 +44,7 @@ const App = () => {
         value: 120,
       },
       color: {
-        value: "#322c9e",
+        value: "#ffffff",
       },
       links: {
         enable: true,
